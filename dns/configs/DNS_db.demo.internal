@@ -1,0 +1,6 @@
+$TTL    604800
+@       IN      SOA     dns-server.demo.internal. admin.demo.internal. ( 1 604800 86400 2419200 604800 )
+@       IN      NS      dns-server.demo.internal.
+dns-server IN      A       10.0.0.2
+client-1   IN      A       10.0.0.3
+client-2   IN      A       10.0.0.4

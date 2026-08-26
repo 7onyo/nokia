@@ -1,0 +1,12 @@
+From client 1 try to ping clien 2:
+ping -c 3 client-2.demo.internal
+
+From client 1 try to ping clien 2 with short name:
+ping -c 3 client-2
+
+Ask directly dns server:
+dig @10.0.0.2 client-1.demo.internal +short
+
+Test forward resolution:
+dig ubuntu.com +short
+ping google.com

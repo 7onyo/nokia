@@ -1,0 +1,4 @@
+zone "demo.internal" {
+    type master;
+    file "/etc/bind/db.demo.internal";
+};
