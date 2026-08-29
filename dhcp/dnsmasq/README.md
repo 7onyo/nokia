@@ -1,101 +1,80 @@
 # DHCP Server Demo with dnsmasq
 
-Notes on configuring a temporary DHCP server using `dnsmasq` and testing with a Linux client.
+This provisions an isolated virtual environment to test a local DHCP server using `dnsmasq`. It uses Terraform and Libvirt to automatically spin up a Server and a Client VM on an isolated network.
 
-## Linux DHCP Server
+## Prerequisites
 
-**Note:** `enp5s0` is used as the example network interface.
+- [Terraform](https://www.terraform.io/)
+- [Libvirt (KVM/QEMU)](https://libvirt.org/)
+- `cdrtools`
 
-### 1. Prepare the Network Interface
+## 1. Provisioning the VMs
 
-Disable the firewall to allow DHCP traffic (ports 67/68):
+Start the virtual machines using Terraform. This will automatically download the Ubuntu 22.04 base image, configure the networks (via Netplan), and initialize the VMs.
+
 ```bash
-sudo ufw disable
-
+terraform init
+terraform apply -auto-approve
 ```
 
-Prevent NetworkManager from automatically resetting or modifying the IP configuration:
+Once complete, Terraform will output the management SSH IPs for both VMs:
+- `server_management_ip` (e.g., `192.168.122.3`)
+- `client_management_ip` (e.g., `192.168.122.4`)
 
+SSH into both machines in separate terminals:
 ```bash
-sudo nmcli dev set enp5s0 managed no
-
+ssh onyo@<server_management_ip>
+ssh onyo@<client_management_ip>
 ```
 
-Set a custom static IP for the interface:
+### Network Architecture
+Each VM is provisioned with two network interfaces:
+- **`ens3` (Management)**: Connected to the default Libvirt NAT network. This provides internet access and is used to SSH into the VMs.
+- **`ens4` (Isolated Testing)**: Connected to a completely isolated bridge (`dhcp-test-net`). This is a private link strictly between the Server and Client VMs for testing `dnsmasq` without outside interference.
+
+*Note: Cloud-Init automatically configures `ens4` on the server with a static IP of `192.168.99.1/24`, and leaves the client's `ens4` ready to request an IP.*
+
+---
+
+## 2. Starting the DHCP Server
+
+On the **Server VM**, start `dnsmasq` in foreground/debug mode (`-d`). 
+
+This command binds to the isolated interface (`ens4`) and serves dynamic IP addresses between `.10` and `.50` with a 12-hour lease time:
 
 ```bash
-sudo ip addr add 192.168.99.1/24 dev enp5s0
-
-```
-
-Ensure the interface is up (often not required, but ensures connectivity):
-
-```bash
-sudo ip link set enp5s0 up
-
-```
-
-### 2. Start the DHCP Server
-
-`dnsmasq` is run in foreground/debug mode (`-d`).
-
-**Dynamic IP Range Configuration**
-
-Serves IP addresses between `.10` and `.50` with a 12-hour lease time:
-
-```bash
-sudo dnsmasq -d --interface=enp5s0 --bind-interfaces --dhcp-range=192.168.99.10,192.168.99.50,12h
-
+sudo dnsmasq -d --interface=ens4 --bind-interfaces --dhcp-range=192.168.99.10,192.168.99.50,12h
 ```
 
 ---
 
-## Linux Client
+## 3. Testing the Client
 
-Commands for the client machine to test the DHCP server connection.
+On the **Client VM**, use `dhclient` to request an IP address over the isolated network.
 
-Disable the firewall to ensure the DHCP offer is received:
-
+Release any existing leases on `ens4` (if any):
 ```bash
-sudo ufw disable
-
+sudo dhclient -r ens4
 ```
 
-Release the current IP lease:
-
+Request a new IP address in verbose mode to view the DHCP transaction details:
 ```bash
-sudo dhclient -r
-
-```
-
-Request a new IP address (verbose mode to view the transaction details):
-
-```bash
-sudo dhclient -v
-
+sudo dhclient -v ens4
 ```
 
 ---
 
-## Testing Connectivity
+## 4. Testing Connectivity
 
-Verify bidirectional communication after the client receives an IP.
+Verify bidirectional communication after the client successfully receives an IP address.
 
 **Ping Server from Client**
-
-Targets the static IP configured on the DHCP server:
-
 ```bash
 ping 192.168.99.1
-
 ```
 
 **Ping Client from Server**
-
-Targets the IP assigned to the client:
-
+Look at the output from `dnsmasq` or `dhclient` to find the assigned IP (e.g., `192.168.99.10`), and ping it from the server:
 ```bash
-#example
 ping 192.168.99.10
-
 ```
