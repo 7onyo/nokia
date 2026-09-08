@@ -35,10 +35,13 @@ This demonstrates the performance differences between using SR-IOV (Single Root 
 ### Setup Virtual Functions
 
 ```bash
-# 1. Generate 2 Virtual Functions
+# 1. Check if the interface supports SR-IOV and view total allowed VFs
+cat /sys/class/net/ens7f0/device/sriov_totalvfs
+
+# 2. Generate 2 Virtual Functions
 sudo sh -c 'echo 2 > /sys/class/net/ens7f0/device/sriov_numvfs'
 
-# 2. Check the newly created VF names (likely ens7f0v0 and ens7f0v1)
+# 3. Check the newly created VF names (likely ens7f0v0 and ens7f0v1)
 sudo ip link show | grep ens7f0
 ```
 <p align="center">
@@ -104,7 +107,7 @@ When using SR-IOV, the network traffic is routed directly through the physical N
 
 
 
-*Note: You can run the steps in this section manually, or execute the provided `setup_bridge.sh` and `test_bridge.sh` scripts in the repository root for convenience.*
+*Note: You can run the steps in this section manually, or execute the provided `setup_bridge.sh` and `test_bridge.sh` scripts in the repository root for convenience. **Important:** If you use the scripts, be sure to open them and update the interface names to match your system's network configuration if necessary.*
 
 ### Setup Bridge and Namespaces
 
@@ -147,6 +150,7 @@ sudo ip netns exec ns-sw2 ip link set lo up
 ```bash
 # 7. Test direct communication
 sudo ip netns exec ns-sw1 ping -c 3 10.30.30.2
+sudo ip netns exec ns-sw2 ping -c 3 10.30.30.1
 ```
 <p align="center">
   <img src="media/bridge_ping.png" alt="Bridge Ping">
@@ -174,7 +178,9 @@ With a standard software bridge, the host's CPU must actively process and forwar
 
 ## 3. Performance Results Summary
 
-Here is a summary of the `iperf3` benchmark results comparing both approaches under the 10G UDP flood test:
+Here is a summary of the `iperf3` benchmark results comparing both approaches under the 10G UDP flood test.
+
+While CPU usage was observed to be similar between both methods (2-3 threads), **SR-IOV** demonstrated clear performance advantages in **throughput** (1.60 GBytes vs 972 MBytes) and **delay/jitter** (0.001 ms vs 0.004 ms). It is worth noting that under this heavy 10G UDP flood, SR-IOV did experience a slightly higher **packet loss** rate (0.77%) compared to the Software Bridge (0.0011%).
 
 <div align="center">
 
