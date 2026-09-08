@@ -34,6 +34,16 @@ Each VM is provisioned with two network interfaces:
 
 *Note: Cloud-Init automatically configures `ens4` on the server with a static IP of `192.168.99.1/24`, and leaves the client's `ens4` ready to request an IP.*
 
+**Server Interfaces (Before DHCP)**
+<p align="center">
+  <img src="media/ip_a_server_before.png" alt="Server interfaces">
+</p>
+
+**Client Interfaces (Before DHCP)**
+<p align="center">
+  <img src="media/ip_a_client_before.png" alt="Client interfaces">
+</p>
+
 ---
 
 ## 2. Starting the DHCP Server
@@ -62,6 +72,11 @@ Request a new IP address in verbose mode to view the DHCP transaction details:
 sudo dhclient -v ens4
 ```
 
+**DHCP DORA Process**
+<p align="center">
+  <img src="media/dora.png" alt="DHCP DORA Process">
+</p>
+
 ---
 
 ## 4. Testing Connectivity
@@ -70,11 +85,17 @@ Verify bidirectional communication after the client successfully receives an IP 
 
 **Ping Server from Client**
 ```bash
-ping 192.168.99.1
+ping -c 3 <server_ip>
 ```
+<p align="center">
+  <img src="media/ping_server.png" alt="Ping Server from Client">
+</p>
 
 **Ping Client from Server**
 Look at the output from `dnsmasq` or `dhclient` to find the assigned IP (e.g., `192.168.99.10`), and ping it from the server:
 ```bash
-ping 192.168.99.10
+ping -c 3 <client_ip>
 ```
+<p align="center">
+  <img src="media/ping_client.png" alt="Ping Client from Server">
+</p>
