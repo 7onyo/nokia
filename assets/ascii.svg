@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 400" width="100%" height="100%">
+  <!-- Background -->
+  <rect width="100%" height="100%" fill="#0d1117" />
+  
+  <!-- Centered ASCII Art Block -->
+  <text font-family="monospace, Courier, 'Courier New'" font-size="14" fill="#005aff" text-anchor="start" xml:space="preserve">
+    <tspan x="120" y="100">d                                 NOxooodkK:                        c00000;    c000:                lc             </tspan>
+    <tspan x="120" dy="1.2em">;oK.                          Xkl:,,,,,,,,,;cd0:                  Xd;,,'       ;,,,,               k,:x            </tspan>
+    <tspan x="120" dy="1.2em">,,,:xO                      0c,,,.          .,,;xl             oOc,,,.         ;,,,,               .,,,O           </tspan>
+    <tspan x="120" dy="1.2em">,,,,,,l0;                 ,o,,,               .,,;k         .Kd;,,.            ;,,,,                 ,,,d,         </tspan>
+    <tspan x="120" dy="1.2em">,,,,.,,,;xK               l,,,                 .,,,l      xk:,,,               ;,,,,                  ',,cc        </tspan>
+    <tspan x="120" dy="1.2em">,,,,   .,,,cOl           ,,,,'                  ',,:   'Ko,,,.                 ;,,,,                   .,,;x       </tspan>
+    <tspan x="120" dy="1.2em">,,,,      ,,,;dK.        ',,,;                  ;,,,    .,,,;0'                ;,,,,                    .,,,O      </tspan>
+    <tspan x="120" dy="1.2em">,,,,        .,,,:kk       ,,,c.                l,,,'       ,,,:xO              ;,,,,       lXXXXXXXXXXXXKc,,,d'    </tspan>
+    <tspan x="120" dy="1.2em">,,,,           ,,,,o0'     ,,,o:              O:,,'          .,,,l0;           ;,,,,      k;,,,,,,,,,,,,,,,,,,cl   </tspan>
+    <tspan x="120" dy="1.2em">,,,,             .,,,:xO    ',,;xX'        d0l,,,.              ',,;xX         ;,,,,    .k,,,.              .,,;k  </tspan>
+    <tspan x="120" dy="1.2em">,,,,                ',,,.     .,,,;ldxxxdoc,,,,                   .,,,cOl      ;,,,,   ;o,,,                 .,,,k </tspan>
+    <tspan x="120" dy="1.2em">                      .,.           .,,,,                                                                          </tspan>
+    <tspan x="120" dy="1.2em">                        .                                                                                          </tspan>
+  </text>
+</svg>
