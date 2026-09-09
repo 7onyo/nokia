@@ -21,7 +21,7 @@ minikube start --driver=docker
 
 echo -e "\n${CYAN}2. Cleaning up any old resources${NC}"
 echo -e "${GREEN}${SEP}${NC}"
-bash cleanup.sh
+./cleanup.sh
 
 echo -e "\n${CYAN}3. Creating ConfigMap from index.html${NC}"
 echo -e "${GREEN}${SEP}${NC}"
