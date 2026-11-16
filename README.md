@@ -8,6 +8,7 @@
     <img src="https://img.shields.io/badge/Debian-A81D33?style=for-the-badge&logo=debian&logoColor=white" alt="Debian">
     <img src="https://img.shields.io/badge/Ubuntu-E95420?style=for-the-badge&logo=ubuntu&logoColor=white" alt="Ubuntu">
     <img src="https://img.shields.io/badge/Bash-4EAA25?style=for-the-badge&logo=gnu-bash&logoColor=white" alt="Bash">
+    <img src="https://img.shields.io/badge/Ansible-EE0000?style=for-the-badge&logo=ansible&logoColor=white" alt="Ansible">
   </p>
   <p>
     <b>Container & Orchestration</b><br>
@@ -24,6 +25,7 @@
   </p>
   <p>
     <b>Networking & Services</b><br>
+    <img src="https://img.shields.io/badge/nginx-009639?style=for-the-badge&logo=nginx&logoColor=white" alt="NGINX">
     <img src="https://img.shields.io/badge/dnsmasq-005571?style=for-the-badge&logoColor=white" alt="dnsmasq">
     <img src="https://img.shields.io/badge/BIND9-E12B26?style=for-the-badge&logoColor=white" alt="BIND9">
   </p>
